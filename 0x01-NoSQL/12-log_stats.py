@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     number_logs = collection.count_documents({})
     print("""{} logs
-Methods:""".format(number_logs))
+    Methods:""".format(number_logs))
 
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
