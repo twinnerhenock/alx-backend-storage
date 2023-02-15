@@ -66,7 +66,6 @@ def call_history(method: Callable) -> Callable:
         self._redis.set(key, data)
         return key
 
-
     def get(
             self,
             key: str,
