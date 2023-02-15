@@ -22,7 +22,9 @@ def call_history(method: Callable) -> Callable:
     @wraps(method)
     def invoker(self, *args, **kwargs) -> Any:
         '''Returns the method's output after storing its inputs and output.'''
-        in_key = '{}:inputs'.format(method.__qualname__)                                                   out_key = '{}:outputs'.format(method.__qualname__)                                                 if isinstance(self._redis, redis.Redis):                                                 
+        in_key = '{}:inputs'.format(method.__qualname__)
+        out_key = '{}:outputs'.format(method.__qualname__)                                                 
+        if isinstance(self._redis, redis.Redis):                                                 
             self._redis.rpush(in_key, str(args))
         output = method(self, *args, **kwargs)
         if isinstance(self._redis, redis.Redis):
@@ -30,7 +32,7 @@ def call_history(method: Callable) -> Callable:
         return output
     return invoker
 
-                                                                                                   def replay(fn: Callable) -> None:
+def replay(fn: Callable) -> None:
     '''Displays the call history of a Cache class' method.'''
     if fn is None or not hasattr(fn, '__self__'):
         return 
@@ -52,7 +54,10 @@ def call_history(method: Callable) -> Callable:
             fxn_input.decode("utf-8"),
             fxn_output,
         ))
-                                                                                                                                                                                                      class Cache:                                                                                           '''Represents an object for storing data in a Redis data storage.'''
+
+
+class Cache:
+    '''Represents an object for storing data in a Redis data storage.'''
     def __init__(self) -> None:
         '''Initializes a Cache instance.'''
         self._redis = redis.Redis()
