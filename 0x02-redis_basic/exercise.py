@@ -7,10 +7,10 @@ from typing import Any, Callable, Union
 
 
 def count_calls(method: Callable) -> Callable:
-    """Tracks the number of calls made to a method in a Cache class"""
+    """Tracks the number of calls made to a method in Cache class"""
     @wraps(method)
     def invoker(self, *args, **kwargs) -> Any:
-        """Invokes the given method after incrementing its call counter"""
+        """Invoke the method after incrementing its call counter"""
         if isinstance(self._redis, redis.Redis):
             self._redis.incr(method.__qualname__)
         return method(self, *args, **kwargs)
@@ -18,7 +18,7 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
-    """Tracks the call details of a method in a Cache class"""
+    """Tracks the call details of a method in Cache class"""
     @wraps(method)
     def invoker(self, *args, **kwargs) -> Any:
         """Returns the method's output after storing its inputs and output"""
