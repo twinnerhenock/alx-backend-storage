@@ -23,7 +23,8 @@ def call_history(method: Callable) -> Callable:
     def invoker(self, *args, **kwargs) -> Any:
         """Returns the method's output after storing its inputs and output"""
         in_key = '{}:inputs'.format(method.__qualname__)
-        out_key = '{}:outputs'.format(method.__qualname__)                                          if isinstance(self._redis, redis.Redis):
+        out_key = '{}:outputs'.format(method.__qualname__)     
+        if isinstance(self._redis, redis.Redis):
             self._redis.rpush(in_key, str(args))
         output = method(self, *args, **kwargs)
         if isinstance(self._redis, redis.Redis):
